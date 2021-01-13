@@ -22,13 +22,12 @@ matrix:
 
 install:
     - git checkout master
-    - git submodule update --init --recursive
 
 before_build:
   - C:\Tools\vcpkg\vcpkg version
   - clang-cl --version
   - cmake --version
-  #- C:\Tools\vcpkg\vcpkg.exe integrate remove
+  - C:\Tools\vcpkg\vcpkg.exe integrate remove
   - cmake -E make_directory build
   - cd build
   - echo %PATH%
