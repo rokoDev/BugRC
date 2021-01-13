@@ -21,13 +21,13 @@ matrix:
   fast_finish: true
 
 install:
-    - git checkout master
+  - git checkout master
 
 before_build:
   - C:\Tools\vcpkg\vcpkg version
   - clang-cl --version
   - cmake --version
-  - C:\Tools\vcpkg\vcpkg.exe integrate remove
+  # - C:\Tools\vcpkg\vcpkg.exe integrate remove
   - cmake -E make_directory build
   - cd build
   - echo %PATH%
@@ -36,5 +36,5 @@ before_build:
 build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\$(APPVEYOR_PROJECT_NAME).sln
 
-# on_finish:
-#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
