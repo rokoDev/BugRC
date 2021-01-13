@@ -1,0 +1,41 @@
+version: '1.0.{build}'
+
+image:
+  - Visual Studio 2019
+
+branches:
+  only:
+    - master
+
+# set clone depth
+clone_depth: 5
+
+platform:
+  - x64
+
+configuration:
+  - Debug
+  - Release
+
+matrix:
+  fast_finish: true
+
+install:
+    - git checkout master
+    - git submodule update --init --recursive
+
+before_build:
+  - C:\Tools\vcpkg\vcpkg version
+  - clang-cl --version
+  - cmake --version
+  #- C:\Tools\vcpkg\vcpkg.exe integrate remove
+  - cmake -E make_directory build
+  - cd build
+  - echo %PATH%
+  - cmake -G "Visual Studio 16 2019" -A x64 -T ClangCL ..
+
+build:
+  project: $(APPVEYOR_BUILD_FOLDER)\build\$(APPVEYOR_PROJECT_NAME).sln
+
+# on_finish:
+#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
